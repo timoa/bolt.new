@@ -9,7 +9,6 @@ interface ToolResult<Name extends string, Args, Result> {
   toolName: Name;
   args: Args;
   result: Result;
-  state: 'result';
 }
 
 interface Message {
