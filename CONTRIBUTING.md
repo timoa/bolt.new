@@ -60,6 +60,11 @@ pnpm install
 
 ```
 ANTHROPIC_API_KEY=XXX
+PROVIDER= gemini | antrophic | openai | ollama
+PROVIDER_BASE_URL=XXX
+MODEL_NAME=XXX
+GOOGLE_GENERATIVE_AI_API_KEY=XXX
+OPEN_AI_API_KEY=XXX
 ```
 
 Optionally, you can set the debug level:
@@ -108,5 +113,3 @@ pnpm run deploy
 ```
 
 Make sure you have the necessary permissions and Wrangler is correctly configured for your Cloudflare account.
-
-TODO: add automatic deployment configuration for Cloudflare Pages
