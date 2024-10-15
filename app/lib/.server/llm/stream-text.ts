@@ -1,6 +1,6 @@
 import { streamText as _streamText, convertToCoreMessages } from 'ai';
 import { getAPIKey } from '~/lib/.server/llm/api-key';
-import { getModelFactory } from '~/lib/.server/llm/get-model';
+import { getAnthropicModel } from '~/lib/.server/llm/model';
 import { MAX_TOKENS } from './constants';
 import { getSystemPrompt } from './prompts';
 
@@ -22,22 +22,13 @@ export type Messages = Message[];
 export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
-  const provider = env.PROVIDER || 'anthropic';
-  const modelName = env.MODEL_NAME || 'default-model';
-  const factory = getModelFactory(provider);
-
-  const model = factory.createModel(getAPIKey(env), modelName);
-
   return _streamText({
-    model,
+    model: getAnthropicModel(getAPIKey(env)),
     system: getSystemPrompt(),
     maxTokens: MAX_TOKENS,
-    headers:
-      provider === 'anthropic'
-        ? {
-            'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-          }
-        : undefined,
+    headers: {
+      'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+    },
     messages: convertToCoreMessages(messages),
     ...options,
   });
