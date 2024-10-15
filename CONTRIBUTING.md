@@ -108,3 +108,5 @@ pnpm run deploy
 ```
 
 Make sure you have the necessary permissions and Wrangler is correctly configured for your Cloudflare account.
+
+TODO: add automatic deployment configuration for Cloudflare Pages
