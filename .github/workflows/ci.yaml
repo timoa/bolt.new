@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 jobs:
@@ -64,7 +64,7 @@ jobs:
           commit-sha: ${{ github.sha }}
           message: '${{ github.sha }} has been deployed to ${{ steps.deploy.outputs.deployment-url }} :rocket:'
           recreate: true
-          
+
       - name: Comment on PR
         if: github.event_name == 'pull_request'
         uses: hasura/comment-progress@v2.3.0
