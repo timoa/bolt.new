@@ -1,5 +1,7 @@
-// @ts-nocheck
-// Preventing TS checks with files presented in the video for a better presentation.
+/**
+ * @ts-nocheck
+ * Preventing TS checks with files presented in the video for a better presentation.
+ */
 import { streamText as _streamText, convertToCoreMessages } from 'ai';
 import { getModel } from '~/lib/.server/llm/model';
 import { MAX_TOKENS } from './constants';
@@ -34,7 +36,7 @@ function extractModelFromMessage(message: Message): { model: string; content: st
     return { model, content };
   }
 
-  // Default model if not specified
+  // default model if not specified
   return { model: DEFAULT_MODEL, content: message.content };
 }
 
@@ -43,11 +45,14 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
   const processedMessages = messages.map((message) => {
     if (message.role === 'user') {
       const { model, content } = extractModelFromMessage(message);
+
       if (model && MODEL_LIST.find((m) => m.name === model)) {
-        currentModel = model; // Update the current model
+        currentModel = model; // update the current model
       }
+
       return { ...message, content };
     }
+
     return message;
   });
 
@@ -57,9 +62,14 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
     model: getModel(provider, currentModel, env),
     system: getSystemPrompt(),
     maxTokens: MAX_TOKENS,
-    // headers: {
-    //   'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-    // },
+
+    /**
+     * Headers
+     * headers: {
+     *   'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+     * }
+     */
+
     messages: convertToCoreMessages(processedMessages),
     ...options,
   });
